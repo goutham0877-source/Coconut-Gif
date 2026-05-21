@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goutham S — Coconut Software CSM</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --teal:    #00C4B3;
+  --teal2:   #007A72;
+  --dark:    #0A0F1E;
+  --dark2:   #111827;
+  --cream:   #F7F2EA;
+  --gold:    #E8C547;
+  --muted:   rgba(247,242,234,0.45);
+  --muted2:  rgba(247,242,234,0.22);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--dark);
+  font-family: 'Outfit', sans-serif;
+  color: var(--cream);
+}
+
+/* ══════════════════════
+   STAGE
+══════════════════════ */
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ══════════════════════
+   SLIDES
+══════════════════════ */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ══════════════════════
+   PROGRESS
+══════════════════════ */
+#progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: var(--teal);
+  width: 0;
+  z-index: 999;
+  transition: none;
+}
+
+/* ══════════════════════
+   NAV DOTS
+══════════════════════ */
+#dots {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999;
+}
+.dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  transition: background 0.3s, transform 0.3s;
+}
+.dot.on {
+  background: var(--teal);
+  transform: scale(1.4);
+}
+
+/* ══════════════════════
+   SLIDE COUNTER
+══════════════════════ */
+#counter {
+  position: fixed;
+  bottom: 28px; right: 36px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--muted2);
+  z-index: 999;
+  font-weight: 400;
+}
+
+/* click hint */
+#hint {
+  position: fixed;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted2);
+  z-index: 999;
+  text-transform: uppercase;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* ═══════════════════════════════════════
+   SLIDE 1 — HERO / BATMAN PUN
+═══════════════════════════════════════ */
+#s1 {
+  background: var(--dark);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#s1 .grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,196,179,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,196,179,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+#s1 .glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,196,179,0.12) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -52%);
+  pointer-events: none;
+}
+#s1 .inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 780px;
+  padding: 0 48px;
+}
+#s1 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,196,179,0.1);
+  border: 1px solid rgba(0,196,179,0.25);
+  border-radius: 100px;
+  padding: 7px 20px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s 0.1s both;
+}
+#s1 .name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(64px, 8vw, 96px);
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 0.95;
+  letter-spacing: -2px;
+  animation: fadeUp 0.6s 0.25s both;
+}
+#s1 .name em {
+  color: var(--teal);
+  font-style: italic;
+}
+#s1 .pun {
+  margin-top: 22px;
+  font-size: clamp(14px, 1.6vw, 17px);
+  font-weight: 300;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.5;
+  animation: fadeUp 0.6s 0.4s both;
+}
+#s1 .pun strong {
+  color: var(--cream);
+  font-style: normal;
+  font-weight: 500;
+}
+#s1 .meta {
+  margin-top: 14px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--muted2);
+  text-transform: uppercase;
+  animation: fadeUp 0.6s 0.55s both;
+}
+
+/* ═══════════════════════════════════════
+   SLIDE 2 — WHAT COCONUT NEEDS / WHAT I BRING
+═══════════════════════════════════════ */
+#s2 {
+  background: var(--cream);
+  color: var(--dark);
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+}
+#s2 .two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+}
+#s2 .col-left {
+  background: var(--dark2);
+  padding: 64px 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid rgba(0,196,179,0.15);
+}
+#s2 .col-right {
+  background: var(--cream);
+  padding: 64px 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#s2 .col-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 28px;
+  opacity: 0;
+}
+#s2.active .col-label { animation: fadeUp 0.5s 0.1s forwards; }
+#s2 .col-right .col-label { color: var(--teal2); }
+
+.req-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateX(-10px);
+}
+#s2.active .col-left .req-item:nth-child(2) { animation: slideIn 0.4s 0.2s forwards; }
+#s2.active .col-left .req-item:nth-child(3) { animation: slideIn 0.4s 0.32s forwards; }
+#s2.active .col-left .req-item:nth-child(4) { animation: slideIn 0.4s 0.44s forwards; }
+#s2.active .col-left .req-item:nth-child(5) { animation: slideIn 0.4s 0.56s forwards; }
+#s2.active .col-left .req-item:nth-child(6) { animation: slideIn 0.4s 0.68s forwards; }
+
+#s2.active .col-right .req-item:nth-child(2) { animation: slideInR 0.4s 0.25s forwards; }
+#s2.active .col-right .req-item:nth-child(3) { animation: slideInR 0.4s 0.37s forwards; }
+#s2.active .col-right .req-item:nth-child(4) { animation: slideInR 0.4s 0.49s forwards; }
+#s2.active .col-right .req-item:nth-child(5) { animation: slideInR 0.4s 0.61s forwards; }
+#s2.active .col-right .req-item:nth-child(6) { animation: slideInR 0.4s 0.73s forwards; }
+
+.req-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.col-right .req-dot { background: var(--teal2); }
+.req-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.5;
+}
+.col-right .req-text { color: var(--dark); }
+.req-text strong { font-weight: 600; display: block; font-size: 13px; }
+.col-right .req-text strong { color: var(--teal2); }
+
+/* ═══════════════════════════════════════
+   SLIDE 3 — NUMBERS
+═══════════════════════════════════════ */
+#s3 {
+  background: var(--dark);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 80px;
+}
+#s3 .s-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+  align-self: flex-start;
+  animation: fadeUp 0.5s 0s both;
+  opacity: 0;
+}
+#s3.active .s-label { animation: fadeUp 0.5s 0s forwards; }
+#s3 .headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 700;
+  color: var(--cream);
+  align-self: flex-start;
+  margin-bottom: 48px;
+  line-height: 1.2;
+  opacity: 0;
+}
+#s3.active .headline { animation: fadeUp 0.5s 0.1s forwards; }
+#s3 .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+.stat-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--teal);
+}
+#s3.active .stat-card:nth-child(1) { animation: fadeUp 0.45s 0.2s forwards; }
+#s3.active .stat-card:nth-child(2) { animation: fadeUp 0.45s 0.33s forwards; }
+#s3.active .stat-card:nth-child(3) { animation: fadeUp 0.45s 0.46s forwards; }
+#s3.active .stat-card:nth-child(4) { animation: fadeUp 0.45s 0.59s forwards; }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1;
+}
+.stat-num span { color: var(--teal); font-size: 0.6em; vertical-align: super; }
+.stat-desc {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  font-weight: 300;
+}
+#s3 .context-note {
+  margin-top: 32px;
+  font-size: 13px;
+  color: var(--muted2);
+  font-style: italic;
+  align-self: flex-start;
+  opacity: 0;
+}
+#s3.active .context-note { animation: fadeUp 0.5s 0.75s forwards; }
+
+/* ═══════════════════════════════════════
+   SLIDE 4 — THE 4 HATS (JD SAYS: relationship builder, consultant, storyteller, operator)
+═══════════════════════════════════════ */
+#s4 {
+  background: var(--dark2);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 80px;
+}
+#s4 .s-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--teal);
+  margin-bottom: 12px; align-self: flex-start;
+  opacity: 0;
+}
+#s4.active .s-label { animation: fadeUp 0.5s 0.05s forwards; }
+#s4 .headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 700;
+  color: var(--cream);
+  align-self: flex-start;
+  margin-bottom: 40px;
+  line-height: 1.2;
+  opacity: 0;
+}
+#s4.active .headline { animation: fadeUp 0.5s 0.15s forwards; }
+#s4 .hats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+.hat-card {
+  border-radius: 14px;
+  padding: 28px 22px;
+  opacity: 0;
+  transform: translateY(16px);
+}
+.hat-card:nth-child(1) { background: rgba(0,196,179,0.08); border: 1px solid rgba(0,196,179,0.2); }
+.hat-card:nth-child(2) { background: rgba(232,197,71,0.06); border: 1px solid rgba(232,197,71,0.18); }
+.hat-card:nth-child(3) { background: rgba(147,112,219,0.06); border: 1px solid rgba(147,112,219,0.18); }
+.hat-card:nth-child(4) { background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.18); }
+
+#s4.active .hat-card:nth-child(1) { animation: fadeUp 0.4s 0.25s forwards; }
+#s4.active .hat-card:nth-child(2) { animation: fadeUp 0.4s 0.38s forwards; }
+#s4.active .hat-card:nth-child(3) { animation: fadeUp 0.4s 0.51s forwards; }
+#s4.active .hat-card:nth-child(4) { animation: fadeUp 0.4s 0.64s forwards; }
+
+.hat-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+.hat-title {
+  font-size: 15px; font-weight: 600;
+  color: var(--cream); margin-bottom: 8px;
+}
+.hat-body {
+  font-size: 12px; color: var(--muted); line-height: 1.6; font-weight: 300;
+}
+#s4 .jd-note {
+  margin-top: 28px;
+  font-size: 12px;
+  color: var(--muted2);
+  font-style: italic;
+  align-self: flex-start;
+  opacity: 0;
+  border-left: 2px solid rgba(0,196,179,0.3);
+  padding-left: 14px;
+  line-height: 1.6;
+  max-width: 680px;
+}
+#s4.active .jd-note { animation: fadeUp 0.5s 0.8s forwards; }
+
+/* ═══════════════════════════════════════
+   SLIDE 5 — AI + FINTECH EDGE
+═══════════════════════════════════════ */
+#s5 {
+  background: var(--dark);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+#s5 .left-panel {
+  background: linear-gradient(135deg, #00443E 0%, #001A17 100%);
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+#s5 .left-panel::after {
+  content: 'AI';
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-size: 200px;
+  font-weight: 900;
+  color: rgba(0,196,179,0.06);
+  bottom: -20px; right: -20px;
+  line-height: 1;
+  pointer-events: none;
+}
+#s5 .right-panel {
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid rgba(255,255,255,0.06);
+}
+#s5 .panel-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--teal);
+  margin-bottom: 20px;
+  opacity: 0;
+}
+#s5.active .panel-label { animation: fadeUp 0.5s 0.1s forwards; }
+#s5 .right-panel .panel-label { color: var(--gold); }
+#s5.active .right-panel .panel-label { animation: fadeUp 0.5s 0.15s forwards; }
+
+#s5 .panel-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 2.8vw, 34px);
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 24px;
+  opacity: 0;
+}
+#s5.active .panel-heading { animation: fadeUp 0.5s 0.22s forwards; }
+#s5 .right-panel .panel-heading { opacity: 0; }
+#s5.active .right-panel .panel-heading { animation: fadeUp 0.5s 0.28s forwards; }
+
+.feature-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+  opacity: 0;
+}
+#s5.active .left-panel .feature-row:nth-child(3) { animation: slideIn 0.4s 0.35s forwards; }
+#s5.active .left-panel .feature-row:nth-child(4) { animation: slideIn 0.4s 0.47s forwards; }
+#s5.active .left-panel .feature-row:nth-child(5) { animation: slideIn 0.4s 0.59s forwards; }
+#s5.active .right-panel .feature-row:nth-child(3) { animation: slideInR 0.4s 0.4s forwards; }
+#s5.active .right-panel .feature-row:nth-child(4) { animation: slideInR 0.4s 0.52s forwards; }
+#s5.active .right-panel .feature-row:nth-child(5) { animation: slideInR 0.4s 0.64s forwards; }
+
+.feature-ico {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(0,196,179,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.right-panel .feature-ico { background: rgba(232,197,71,0.1); }
+.feature-copy { font-size: 13px; color: var(--muted); line-height: 1.55; font-weight: 300; }
+.feature-copy strong { color: var(--cream); font-weight: 500; display: block; margin-bottom: 2px; font-size: 13px; }
+
+/* ═══════════════════════════════════════
+   SLIDE 6 — PHILOSOPHY / CLOSER
+═══════════════════════════════════════ */
+#s6 {
+  background: var(--teal);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 80px;
+  text-align: center;
+}
+#s6 .quote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 900;
+  color: var(--dark);
+  line-height: 1.15;
+  max-width: 820px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+#s6.active .quote { animation: fadeUp 0.6s 0.2s forwards; }
+#s6 .sub {
+  margin-top: 24px;
+  font-size: clamp(14px, 1.6vw, 17px);
+  font-weight: 300;
+  color: rgba(10,15,30,0.65);
+  max-width: 600px;
+  line-height: 1.7;
+  opacity: 0;
+}
+#s6.active .sub { animation: fadeUp 0.6s 0.45s forwards; }
+#s6 .byline-row {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+}
+#s6.active .byline-row { animation: fadeUp 0.6s 0.7s forwards; }
+#s6 .avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+#s6 .byline-text { text-align: left; }
+#s6 .byline-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+}
+#s6 .byline-role {
+  font-size: 12px;
+  color: rgba(10,15,30,0.55);
+  letter-spacing: 1px;
+}
+#s6 .pill {
+  margin-top: 36px;
+  background: var(--dark);
+  color: var(--cream);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: 100px;
+  opacity: 0;
+}
+#s6.active .pill { animation: fadeUp 0.5s 0.9s forwards; }
+
+/* ══════════════════════
+   KEYFRAMES
+══════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInR {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <!-- ── SLIDE 1: HERO ── -->
+  <div class="slide active" id="s1">
+    <div class="grid-lines"></div>
+    <div class="glow"></div>
+    <div class="inner">
+      <div class="eyebrow">🥥 &nbsp; Coconut Software &nbsp;·&nbsp; CSM Application</div>
+      <div class="name">Goutham <em>S.</em></div>
+      <div class="pun">Not <strong>Batman</strong>, but I do show up when customers are in the dark 🦇<br>— and I always have a plan to get them to the light.</div>
+      <div class="meta">7+ Years · B2B SaaS · Toronto · Fintech &amp; Payments</div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 2: JD FIT ── -->
+  <div class="slide" id="s2">
+    <div class="two-col">
+      <div class="col-left">
+        <div class="col-label">What Coconut Needs</div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>Relationship Builder</strong>Build trusted relationships with working teams and executive stakeholders</div></div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>Consultant</strong>Uncover goals, align on success metrics, create actionable success plans</div></div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>Storyteller</strong>Translate usage data into a compelling value and ROI story</div></div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>Operator</strong>Manage a mixed portfolio with scaled digital CS motions</div></div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>AI Enthusiast</strong>Use LLMs to drive stronger customer outcomes, not just as a user</div></div>
+      </div>
+      <div class="col-right">
+        <div class="col-label">What I Bring</div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>Executive-ready presence</strong>QBRs and strategic reviews with C-suite at multi-site merchant accounts</div></div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>Consultative methodology</strong>Success plans, onboarding playbooks, and proactive health monitoring</div></div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>Data-to-narrative fluency</strong>Turn churn signals and usage trends into clear renewal and expansion stories</div></div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>97% retention, 95% renewals</strong>Across a high-volume B2B SaaS portfolio with complex workflows</div></div>
+        <div class="req-item"><div class="req-dot"></div><div class="req-text"><strong>Builds with LLMs daily</strong>Not just prompting — experimenting, automating, and driving real value</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 3: NUMBERS ── -->
+  <div class="slide" id="s3">
+    <div class="s-label">Proof of Work</div>
+    <div class="headline">The metrics that matter most<br>in a CS role are the ones I live by.</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">97<span>%</span></div>
+        <div class="stat-desc">Retention rate across managed portfolio — customers stay because they see value</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">95<span>%</span></div>
+        <div class="stat-desc">Renewal rate year over year — built through proactive health management, not last-minute saves</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">30<span>%</span></div>
+        <div class="stat-desc">Reduction in onboarding time — structured playbooks that get customers to value faster</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">20<span>%</span></div>
+        <div class="stat-desc">Portfolio revenue growth — expansion and upsell driven through genuine customer partnership</div>
+      </div>
+    </div>
+    <div class="context-note">Across B2B SaaS portfolios in payments, loyalty, and POS — industries with complex, multi-stakeholder customer environments similar to financial services</div>
+  </div>
+
+  <!-- ── SLIDE 4: THE 4 HATS ── -->
+  <div class="slide" id="s4">
+    <div class="s-label">The Role, Defined</div>
+    <div class="headline">Coconut says the CSM is "equal parts relationship builder,<br>consultant, storyteller, and operator." Here is how I wear each hat.</div>
+    <div class="hats">
+      <div class="hat-card">
+        <span class="hat-icon">🤝</span>
+        <div class="hat-title">Relationship Builder</div>
+        <div class="hat-body">7 years of building trust with SMB owners, ops leads, and C-suite across complex, high-stakes accounts. I earn advocacy, not just renewals.</div>
+      </div>
+      <div class="hat-card">
+        <span class="hat-icon">🧠</span>
+        <div class="hat-title">Consultant</div>
+        <div class="hat-body">I start every engagement by understanding what success actually means to that customer — then build a plan around it. Success plans, QBRs, and adoption strategies are core to how I work.</div>
+      </div>
+      <div class="hat-card">
+        <span class="hat-icon">📖</span>
+        <div class="hat-title">Storyteller</div>
+        <div class="hat-body">I translate product usage and health data into executive-ready narratives. Customers understand the value they are getting — and the value they are leaving on the table.</div>
+      </div>
+      <div class="hat-card">
+        <span class="hat-icon">⚙️</span>
+        <div class="hat-title">Operator</div>
+        <div class="hat-body">High-volume portfolio management is my baseline. Playbooks, lifecycle outreach, scaled digital motions — I build systems that let me manage breadth without losing depth.</div>
+      </div>
+    </div>
+    <div class="jd-note">"You are equal parts relationship builder, consultant, storyteller, and operator." — Coconut Software JD · This is not a role I am growing into. It is the role I have been doing.</div>
+  </div>
+
+  <!-- ── SLIDE 5: AI + FINTECH EDGE ── -->
+  <div class="slide" id="s5">
+    <div class="left-panel">
+      <div class="panel-label">AI Fluency</div>
+      <div class="panel-heading">I do not just use AI.<br>I build with it.</div>
+      <div class="feature-row">
+        <div class="feature-ico">🤖</div>
+        <div class="feature-copy"><strong>LLM-powered workflows</strong>Actively experiment with AI tools to automate CS motions, build smarter account prep, and surface insights faster</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-ico">💡</div>
+        <div class="feature-copy"><strong>Customer-facing AI value</strong>Help customers understand how to leverage AI capabilities in their own workflows — a key edge in financial services</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-ico">🔁</div>
+        <div class="feature-copy"><strong>Continuous learner</strong>Coconut specifically calls out a passion for LLMs — this is one of my genuine differentiators, not a resume checkbox</div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <div class="panel-label">Fintech Domain</div>
+      <div class="panel-heading">Financial services workflows<br>are my home turf.</div>
+      <div class="feature-row">
+        <div class="feature-ico">🏦</div>
+        <div class="feature-copy"><strong>Payments and loyalty</strong>Deep background in SaaS platforms serving financial institutions, retailers, and merchants across North America</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-ico">🔗</div>
+        <div class="feature-copy"><strong>Complex integrations</strong>Comfortable with API-level onboarding conversations, POS configurations, and multi-system workflow mapping</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-ico">📋</div>
+        <div class="feature-copy"><strong>Compliance-aware context</strong>Experience working with organizations where accuracy, reliability, and trust are non-negotiable — exactly the context credit unions and banks demand</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 6: CLOSER ── -->
+  <div class="slide" id="s6">
+    <div class="quote">"Customers don't just renew.<br>They advocate."</div>
+    <div class="sub">That is what I build toward in every account. Not task completion — value realization. Not retention metrics — genuine partnership. That is the Coconut way, and it is how I have worked for seven years.</div>
+    <div class="byline-row">
+      <div class="avatar">🦇</div>
+      <div class="byline-text">
+        <div class="byline-name">Goutham S.</div>
+        <div class="byline-role">Customer Success Manager · Toronto · Ready to build something great</div>
+      </div>
+    </div>
+    <div class="pill">🥥 &nbsp; Let's talk, Coconut</div>
+  </div>
+
+  <!-- CHROME -->
+  <div id="progress"></div>
+  <div id="dots"></div>
+  <div id="counter">01 / 06</div>
+  <div id="hint">Click anywhere to advance</div>
+</div>
+
+<script>
+const slides = Array.from(document.querySelectorAll('.slide'));
+const bar    = document.getElementById('progress');
+const dotsEl = document.getElementById('dots');
+const ctr    = document.getElementById('counter');
+const hint   = document.getElementById('hint');
+const DURATIONS = [3500, 5000, 4500, 5000, 5000, 4000];
+let cur = 0, timer = null, raf = null, t0 = null;
+
+// Build dots
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' on' : '');
+  dotsEl.appendChild(d);
+});
+const allDots = () => dotsEl.querySelectorAll('.dot');
+
+function activate(next) {
+  slides[cur].classList.remove('active');
+  allDots()[cur].classList.remove('on');
+  cur = ((next % slides.length) + slides.length) % slides.length;
+  slides[cur].classList.add('active');
+  allDots()[cur].classList.add('on');
+  ctr.textContent = String(cur + 1).padStart(2,'0') + ' / 0' + slides.length;
+  if (cur > 0) hint.style.opacity = '0';
+  startProgress();
+}
+
+function startProgress() {
+  clearTimeout(timer);
+  cancelAnimationFrame(raf);
+  const dur = DURATIONS[cur];
+  t0 = performance.now();
+  bar.style.transition = 'none';
+  bar.style.width = '0%';
+
+  function tick(now) {
+    const pct = Math.min((now - t0) / dur * 100, 100);
+    bar.style.width = pct + '%';
+    if (pct < 100) raf = requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(() => requestAnimationFrame(tick));
+  timer = setTimeout(() => activate(cur + 1), dur);
+}
+
+document.getElementById('stage').addEventListener('click', () => {
+  clearTimeout(timer);
+  cancelAnimationFrame(raf);
+  activate(cur + 1);
+});
+
+startProgress();
+</script>
+</body>
+</html>
